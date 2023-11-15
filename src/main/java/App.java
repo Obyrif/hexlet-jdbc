@@ -4,7 +4,6 @@ import java.sql.SQLException;
 public class App {
     public static void main(String[] args) throws SQLException {
         var conn = DriverManager.getConnection("jdbc:h2:mem:hexlet_test");
-
         var sql = "CREATE TABLE users (id BIGINT PRIMARY KEY AUTO_INCREMENT, username VARCHAR(255), phone VARCHAR(255))";
 
         var statement = conn.createStatement();
