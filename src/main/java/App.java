@@ -11,14 +11,34 @@ public class App {
             }
 
 
-            var sql2 = "INSERT INTO users (username, phone) VALUES ('tommy', '123456789')";
-            try (var statement2 = conn.createStatement()) {
-                statement2.executeUpdate(sql2);
+            var sql2 = "INSERT INTO users (username, phone) VALUES (?, ?)";
+            try (var preparedStatement = conn.prepareStatement(sql2)) {
+                preparedStatement.setString(1, "Tommy");
+                preparedStatement.setString(2, "33333333");
+                preparedStatement.executeUpdate();
+
+                preparedStatement.setString(1, "Maria");
+                preparedStatement.setString(2, "44444444");
+                preparedStatement.executeUpdate();
             }
 
             var sql3 = "SELECT * FROM users";
             try (var statement3 = conn.createStatement()) {
                 var resultSet = statement3.executeQuery(sql3);
+                while (resultSet.next()) {
+                    System.out.println(resultSet.getString("username"));
+                    System.out.println(resultSet.getString("phone"));
+                }
+            }
+
+            var deleteSql = "DELETE FROM users WHERE username = ?";
+            try (var preparedStatement = conn.prepareStatement(deleteSql)){
+                preparedStatement.setString(1, "Tommy");
+                preparedStatement.executeUpdate();
+            }
+
+            try (var statement4 = conn.createStatement()) {
+                var resultSet = statement4.executeQuery(sql3);
                 while (resultSet.next()) {
                     System.out.println(resultSet.getString("username"));
                     System.out.println(resultSet.getString("phone"));
